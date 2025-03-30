@@ -7,19 +7,25 @@ import sys
 
 
 def make_qr(url, is_micro=False):
-    qr = segno.make(url, error="H", micro=is_micro)
+    """Create QR code"""
+
+    qr = segno.make(url, micro=is_micro)
     return qr
 
 
 def export_qr(filename, qr, scale_size=1, border_size=4, fg_color=None, bg_color=None):
+    """Export full QR code in SVG and PNG"""
+
     set_dark = "#000000" if not fg_color else fg_color
     set_light = bg_color if bg_color else None
 
-    qr.save(f"{filename}.svg", scale=scale_size, border=border_size, dark=set_dark, light=set_light)
-    qr.save(f"{filename}.png", scale=scale_size, border=border_size, dark=set_dark, light=set_light)
+    qr.save(f"{filename}-1.svg", scale=scale_size, border=border_size, dark=set_dark, light=set_light)
+    qr.save(f"{filename}-2.png", scale=scale_size, border=border_size, dark=set_dark, light=set_light)
 
 
 def export_qr_logo(filename, qr, scale_size=1, border_size=4):
+    """Export QR code with logo placement space"""
+
     qr_buffer = io.BytesIO()
     qr.save(qr_buffer, kind="png", scale=scale_size, border=border_size, light=None)
 
@@ -33,7 +39,7 @@ def export_qr_logo(filename, qr, scale_size=1, border_size=4):
     logo_container = Image.new("RGB", (container_size, container_size), "white")
     qr_img.paste(logo_container, container_shape)
 
-    qr_img.save(f"{filename}-logo.png")
+    qr_img.save(f"{filename}-3.png")
 
 
 if __name__ == "__main__":
