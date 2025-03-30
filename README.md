@@ -1,0 +1,1 @@
+Personal Python script for generating QR codes
